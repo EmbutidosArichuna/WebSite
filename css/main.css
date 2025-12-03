@@ -1,0 +1,909 @@
+/* main.css - COMPLETO Y REESTRUCTURADO */
+
+/* 1. RESET / VARIABLES */
+html,body{background:#fff;overflow-x:clip}
+:root{
+--header-start-color:#e99c9c;--header-mid-color:rgb(223,84,84);--header-end-color:#ff0000;
+--compact-start-color:#fff;--compact-end-color:#fab32e;--navbar-border-color:#fac664;
+--navbar-border-thickness:3px;--line-width-initial:70%;--line-width-scrolled:100%;
+--header-total-height-scrolled:100px;--header-total-height-initial:60px;--main-padding-bottom:40px;
+}
+
+/* 2. TIPOGRAFÍA / LOGOS */
+#main-nav a,#mobile-menu a{font-family:'Montserrat',sans-serif!important;font-size:17px}
+@font-face{font-family:'Fluffy';src:url('../css/fuentes/Fluffy.ttf') format('truetype');font-display:swap}
+/* Títulos con 'Fluffy' ahora se controlan por clases específicas */
+.logo-head{max-width:220px;height:auto}
+#scrolled-logo-container img{max-width:96px;height:auto}
+
+/* 3. HEADER: sticky, scrolled state y linea */
+/* HEADER: sticky, scrolled state y linea */
+.bg-custom-header-top{background:url('../img/fondo_head.jpg') center/cover no-repeat;background-color:#fab32e;transition:background-color .3s}
+.header-scrolled-state{background-color:var(--compact-end-color)!important;background-image:none!important}
+#main-header{z-index:40;position:fixed;top:0;left:0;width:100%}body{transition:padding-top .3s}
+#header-top-content{max-height:130px;padding:12px 0;overflow:hidden;transition:max-height .3s,opacity .3s,padding .3s;will-change:max-height,opacity,padding}
+.header-scrolled-state #header-top-content{max-height:0!important;padding:0!important;opacity:0}
+#main-header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);z-index:41;height:var(--navbar-border-thickness);background:linear-gradient(to right,transparent 0%,var(--navbar-border-color) 20%,var(--navbar-border-color) 80%,transparent 100%);width:var(--line-width-initial);transition:width .3s}
+.header-scrolled-state #main-header::after{width:var(--line-width-scrolled)!important}
+#carousel-container{margin-top:var(--header-total-height-initial);padding-top:0!important;transition:margin-top .3s}
+.header-scrolled-state + #carousel-container{margin-top:var(--header-total-height-scrolled)}
+.scrolled-item-hidden{opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;pointer-events:none}
+.header-scrolled-state #scrolled-logo-container,.header-scrolled-state #scrolled-social-container{opacity:1;transform:translateY(0);pointer-events:auto}
+
+/* CORRECCIÓN HAMBURGUESA */
+@media(max-width:1023px){
+    #hamburger-wrapper{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transition:left .3s,transform .3s; z-index: 50; cursor: pointer;}
+}
+
+.header-scrolled-state #hamburger-wrapper{left:9rem;transform:translateY(-50%)}
+#main-logo-top{transition:transform .3s}#header-top-content a:hover #main-logo-top{transform:scale(1.05) rotate(2deg)}
+.header-scrolled-state #main-logo-top{transform:none!important}
+#social-icons-top a img,#scrolled-social-container a img{transition:transform .3s;will-change:transform}#social-icons-top a:hover img,#scrolled-social-container a:hover img{transform:scale(1.1)}
+
+/* NAVEGACIÓN MODERNA */
+.nav-item {display: inline-block;color: #ffffff !important;font-size: 1.125rem;font-weight: 700;padding: 1rem;transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-bottom-color 0.3s ease;border-bottom: 3px solid transparent;}
+.nav-highlight, .nav-item:hover {border-bottom-color: #dc2626 !important;transform: translateY(-4px);box-shadow: 6px 0 12px -4px rgba(255, 1, 1, 0.212), -6px 0 12px -4px rgba(255, 0, 0, 0.212);background: rgba(255, 255, 255, 0.1); border-radius: 4px;}
+
+/* 5. CARRUSEL: transiciones, texto y CURVA SUAVE */
+#carousel-container{position:relative;overflow:hidden;width:100%;border-bottom-left-radius:50% 50px;border-bottom-right-radius:50% 50px}
+#carousel-slides,.slide-content img{border-bottom-left-radius:inherit;border-bottom-right-radius:inherit}
+.carousel-nav-btn{opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+#carousel-container:hover .carousel-nav-btn{opacity:1;pointer-events:auto}
+#carousel-container:hover #prev-button,#carousel-container:hover #next-button{transform:translateY(-50%) translateX(0)}
+.slide-content .text-fade-in{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+.slide-content.is-active .text-fade-in{opacity:1;transform:translateY(0)}
+#mobile-menu{transition:opacity .3s;opacity:0;pointer-events:none}#mobile-menu.active{opacity:1;pointer-events:auto}
+
+
+/* 6. HOME PAGE - SECCIONES */
+/* (Esta sección reemplaza los estilos antiguos de #recetario-descanso y #sobre-nosotros) */
+.home-section-title {
+    font-family: 'Fluffy', sans-serif;
+    font-size: 3.5rem; /* 56px */
+    font-weight: 700;
+    color: #c30000; /* Rojo Arichuna */
+}
+.home-body-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.125rem; /* 18px */
+    color: #4B5563; /* Gris medio */
+    line-height: 1.8;
+}
+#home-cta {
+    /* 1. Imagen y Ruta */
+    background-image: url('../img/fachada.jpg');
+    
+    /* 2. Propiedades Esenciales para Parallax */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* <--- Propiedad Parallax */
+    
+    /* 3. Visibilidad de la Sección */
+    min-height: 400px; /* Asegura que la sección tenga suficiente altura para ver el efecto */
+    position: relative; /* Necesario para que el contenido se apile sobre el fondo/overlay */
+    
+    /* 4. Alineación de Contenido */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0; 
+}
+
+/* DESACTIVAR PARALLAX EN MÓVIL (Mejora de Rendimiento) */
+@media (max-width: 768px) {
+    #home-cta {
+        background-attachment: scroll; 
+    }
+}
+@media (max-width: 768px) {
+    .home-section-title {
+        font-size: 2.75rem;
+    }
+}
+
+
+/* SOBRE NOSOTROS (Home) - MANTENIDO POR REQUERIMIENTO */
+#sobre-nosotros, #carrusel-productos {
+scroll-margin-top: 120px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center
+}
+/* HACK DE SANGRADO (Home) - MANTENIDO */
+#sobre-nosotros {
+position: relative;
+left: 50%;
+right: 50%;
+margin-left: -50vw;
+margin-right: -50vw;
+width: 100vw;
+min-height: 85vh;
+color: #fff;
+margin-top: 2rem;
+overflow: hidden;
+padding-left: 0;
+padding-right: 0;
+}
+#sobre-nosotros-fondo {
+z-index: 0;
+opacity: .8;
+filter: contrast(1.5) brightness(.39);
+border-radius: 0;
+transform: none;
+transform-origin: center;
+transition: all .5s
+}
+#sobre-nosotros h2, #sobre-nosotros p {
+position: relative;
+z-index: 2
+}
+#sobre-nosotros h2 {
+font-family: 'Fluffy', sans-serif
+}
+#carrusel-productos {
+margin-top: 4rem;
+min-height: 100vh
+}
+#carrusel-productos h2 {
+font-family: 'Fluffy', sans-serif
+}
+/* ANIMACIONES DEL LOGO (Home) - MANTENIDO */
+.logo-sobre-nosotros {
+opacity: 0;
+transform: translateY(-100px);
+transition: opacity 1s ease 1.2s, transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s;
+will-change: opacity, transform;
+}
+.logo-sobre-nosotros.animate-in {
+opacity: 1;
+transform: translateY(0);
+}
+@media(max-width: 768px) {
+#sobre-nosotros-fondo {
+transform: none;
+}
+#sobre-nosotros h2 {
+font-size: 2.3rem
+}
+#sobre-nosotros p {
+font-size: 1rem
+}
+}
+
+/* ANIMACIONES DE SECCIÓN (Global) */
+.fade-section {
+opacity: 0;
+transition: opacity 1.8s ease-out, transform 1.8s ease-out;
+will-change: opacity, transform;
+}
+.fade-up {
+transform: translateY(80px);
+}
+.fade-left {
+transform: translateX(-80px);
+}
+.fade-from-right {
+transform: translateX(80px);
+}
+.fade-section.visible {
+opacity: 1;
+transform: translate(0, 0);
+}
+
+/* 6C. OBSERVADOR DE ANIMACIÓN (Global) */
+.animate-on-scroll{opacity:0;transition:opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);will-change:opacity, transform}
+.animate-on-scroll.animate-from-left{transform:translateX(-100px)}
+.animate-on-scroll.animate-from-right{transform:translateX(100px)}
+.animate-on-scroll.is-visible{opacity:1;transform:translate(0, 0)}
+
+/* 7. MINI CARRUSEL DE PRODUCTOS 3D (AISLADO) */
+:root{--card-scale-side:.75;--card-translateY-side:-30px;--card-rotate-side:6deg;--card-gap-multiplier:.8;--card-gap-multiplier-far:1.3;--card-size-lg:380px;--card-size-sm:80vw;--card-scale-far:.5;--card-translateY-far:-50px;--card-rotate-far:10deg;--card-translateZ-far:-200px;--card-transition-speed:.6s;--card-transition-easing:cubic-bezier(.175,.885,.32,1.275);--arrow-vertical-position:50%}
+.product-carousel{font-family:'Montserrat',sans-serif;width:100%}
+.carousel-viewport{perspective:1800px;min-height:30rem}
+@media(min-width:768px){.carousel-viewport{min-height:34rem}}
+.product-carousel .carousel-track{width:100%;height:100%;transform-style:preserve-3d;position:relative;min-height:inherit}
+.product-carousel .product-card{--this-card-width:var(--card-size-sm);width:var(--this-card-width);background:transparent;border-radius:1rem;overflow:visible;transform-origin:center center;transition:all var(--card-transition-speed) var(--card-transition-easing);position:absolute;left:50%;top:0;backface-visibility:hidden;transform-style:flat}
+@media(min-width:1024px){.product-carousel .product-card{--this-card-width:var(--card-size-lg)}}
+.product-carousel .product-card.is-center{transform:translateX(-50%) scale(1) translateY(0) rotateY(0);box-shadow:none;z-index:50;opacity:1;filter:brightness(1);cursor:default}
+.product-carousel .product-card.is-prev{z-index:30;opacity:.8;transform:translateX(calc(-50% - var(--this-card-width)*var(--card-gap-multiplier))) scale(var(--card-scale-side)) translateY(var(--card-translateY-side)) rotateY(var(--card-rotate-side))}
+.product-carousel .product-card.is-next{z-index:30;opacity:.8;transform:translateX(calc(-50% + var(--this-card-width)*var(--card-gap-multiplier))) scale(var(--card-scale-side)) translateY(var(--card-translateY-side)) rotateY(calc(-1*var(--card-rotate-side)))}
+.product-carousel .product-card.is-prev-far{z-index:10;opacity:.3;transform:translateX(calc(-50% - var(--this-card-width)*var(--card-gap-multiplier-far))) scale(var(--card-scale-far)) translateY(var(--card-translateY-far)) rotateY(var(--card-rotate-far)) translateZ(var(--card-translateZ-far))}
+.product-carousel .product-card.is-next-far{z-index:10;opacity:.3;transform:translateX(calc(-50% + var(--this-card-width)*var(--card-gap-multiplier-far))) scale(var(--card-scale-far)) translateY(var(--card-translateY-far)) rotateY(calc(-1*var(--card-rotate-far))) translateZ(var(--card-translateZ-far))}
+.product-carousel .product-card:not(.is-center):not(.is-prev):not(.is-next):not(.is-prev-far):not(.is-next-far){opacity:0;pointer-events:none;z-index:0;transform:translateX(-50%) scale(.1) translateZ(-1500px)}
+.product-carousel .card-media{border-radius:1rem;overflow:hidden;background:transparent !important;transform-style:flat}
+.product-carousel .card-media img{object-fit:contain;transition:transform .52s cubic-bezier(.2,.9,.2,1);will-change:transform}
+.product-carousel .product-card.is-center:hover .card-media img{transform:scale(1.05)}
+.product-carousel .product-card:focus{outline:none;outline-offset:0}
+.product-carousel .view-product-button-wrapper{position:absolute;top:50%;left:50%;transform:translate(-50%, calc(-50% + 20px));opacity:0;pointer-events:none;transition:all .3s ease-out;z-index:60}
+.product-carousel .product-card.is-center:hover .view-product-button-wrapper{opacity:1;transform:translate(-50%, -50%);pointer-events:auto}
+.view-product-button{display:inline-flex;align-items:center;justify-content:center;padding:10px 20px;font-weight:bold;text-transform:uppercase;white-space:nowrap;border-radius:999px;box-shadow:0 4px 15px rgba(0,0,0,.2);backdrop-filter:blur(4px);background-color:#e9a31f;color:#FFFFFF;transition:background-color .3s ease, transform .3s ease, color .3s ease;border:none}
+.view-product-button:hover{background-color:#FFFFFF;color:#c30000;transform:scale(1.05)}
+.carousel-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:100;display:flex}
+.carousel-dots button{width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,.8);box-shadow:0 4px 10px rgba(0,0,0,.08);border:none;opacity:.5;transition:transform .2s,opacity .25s,background .2s}
+.carousel-dots button.active{transform:scale(1.35);opacity:1;background:#c30000}
+.prev-btn,.next-btn{width:60px;height:60px;border-radius:999px;backdrop-filter:blur(4px);z-index:100;position:absolute;top:var(--arrow-vertical-position);transform:translateY(-50%);background-color:#c30000;transition:background-color .3s ease,transform .3s ease}
+.prev-btn i,.next-btn i{font-size:2rem;color:#FFFFFF;transition:color .3s ease}
+.prev-btn:hover,.next-btn:hover{background-color:#FFFFFF;transform:translateY(-50%) scale(1.1)}
+.prev-btn:hover i,.next-btn:hover i{color:#c30000}
+.prev-btn{left:1rem}
+.next-btn{right:1rem}
+@media(min-width:768px){.prev-btn{left:2rem}.next-btn{right:2rem}}
+.product-carousel .carousel-track.dragging{cursor:grabbing;user-select:none}
+
+/* 8. EMBEDS */
+#social-preview-section iframe{border:none;transform:scale(1);transition:transform .5s ease}
+#social-preview-section .group:hover iframe{transform:scale(1.02)}
+.group iframe,.group blockquote{pointer-events:none;transition:opacity .3s ease}
+.group:hover iframe,.group:hover blockquote{pointer-events:auto;opacity:1}
+.tiktok-embed iframe{width:100%!important;height:100%!important;border-radius:1rem;object-fit:cover}
+.bg-\[REDES-1\] {background-image: url('../img/REDES-1.jpg');}
+.bg-\[REDES-2\] {background-image: url('../img/REDES-2.jpg');}
+.bg-\[REDES-3\] {background-image: url('../img/REDES-3.jpg');}
+
+/* 9. FOOTER */
+.site-footer{position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;width:100vw;padding:2.5rem 0 0;background:linear-gradient(90deg,#ff9800,#ffa726);color:#f8f8f8;z-index:10}
+.footer-content{display:flex;align-items:center;justify-content:space-evenly;flex-wrap:wrap;max-width:1200px;margin:0 auto;padding:0 4rem 2rem;min-height:100px}
+.footer-left{display:flex;flex-direction:column;align-items:flex-start;text-align:left;position:relative}
+.footer-logo{max-width:240px;height:auto;transition:transform .4s,filter .4s;cursor:pointer}
+.footer-logo:hover{transform:scale(1.05);filter:brightness(1.15)}
+.footer-quote-container{position:relative;width:370px;min-height:3em;overflow:visible; font-family: 'Fluffy'}
+.footer-quote{position:absolute;top:0;left:0;font-style:italic;color:rgba(255,255,255,.95);font-size:1.35rem;white-space:normal;overflow:visible;height:auto;width:100%}
+.footer-quote-text{border-right:2px solid transparent}
+.footer-quote.is-typing .footer-quote-text{border-right-color:rgba(255,255,255,.8);animation:blink .6s step-end infinite;}
+@keyframes blink{50%{border-color:transparent}}
+.footer-copy{text-align:center;color:rgba(255,255,255,.75);font-size:.9rem;margin-top:1rem;padding:1.2rem 0 1.5rem;border-top:1px solid rgba(255,255,255,.4)}
+.footer-info{display:flex;flex-direction:column;gap:1rem;justify-content:center;text-align:right}
+.footer-contact-item{display:flex;align-items:center;gap:.6rem;color:rgba(255,255,255,.95);text-decoration:none;font-size:1.1rem;transition:color .3s,transform .25s}
+.footer-contact-item strong{color:#fff}
+.footer-contact-item:hover{color:#fde68a;transform:translateX(4px)}
+.footer-icon{width:24px;height:24px;transition:transform .3s,filter .3s}
+.footer-contact-item:hover .footer-icon{transform:scale(1.2);filter:brightness(1.2)}
+@media(max-width:900px){.footer-content{flex-direction:column;align-items:center;text-align:center;gap:1.5rem}.footer-left,.footer-info{align-items:center;text-align:center}.footer-quote-container{width:100%;min-height:3em}.footer-logo{max-width:180px}}
+
+/* 10. PAGINA CONTACTO (REFINADA - ESTILO ARICHUNA) */
+
+/* Título de Sección fuera de card: Naranja */
+.contact-section-title{font-family:'Fluffy',sans-serif;font-size:3.5rem;font-weight:500;color:#fab32e;line-height:1.2}
+@media (max-width: 768px){.contact-section-title{font-size:2.75rem}}
+
+/* Tarjetas Sociales: Sombra Roja */
+.contact-social-card{display:flex;align-items:center;justify-content:center;background:#FFF;padding:1.5rem;border-radius:1rem;box-shadow:0 4px 12px rgba(195, 0, 0, 0.1);transition:transform 0.3s ease, box-shadow 0.3s ease}
+.contact-social-card:hover{transform:translateY(-8px);box-shadow:0 8px 20px rgba(195, 0, 0, 0.2)}
+.contact-social-icon{width:4rem;height:4rem}
+/* Hero Contacto - Estilo Estático (Sin Parallax) */
+#hero-contacto {
+    width: 100%;
+    height: 450px;
+    position: relative;
+    overflow: hidden;
+    
+    /* Configuración de Imagen */
+    background-image: url('../img/hero.jpg'); /* Verifica tu ruta */
+    background-size: cover; /* Asegura que cubra todo el fondo */
+    background-position: center center; /* Centra la imagen */
+    background-repeat: no-repeat;
+    
+    /* NOTA: Hemos quitado 'background-attachment: fixed' para eliminar el Parallax.
+       Ahora la imagen se mueve naturalmente con la sección. */
+    
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Overlay con gradiente suave */
+#hero-contacto::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 100%);
+    z-index: 1;
+}
+
+/* Contenedor del texto */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    text-align: left;
+    padding-left: 55%; 
+    padding-right: 5%;
+}
+
+/* Título Animado */
+.hero-title {
+    font-family: 'Fluffy', sans-serif;
+    font-size: 5rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    
+    opacity: 0;
+    transform: translateY(40px);
+    animation: heroReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
+    
+    position: relative;
+    display: inline-block;
+    padding-bottom: 12px; /* Espacio extra para la línea */
+}
+
+/* Línea amarilla decorativa (Ajustada) */
+.hero-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0px; /* Pegado al padding-bottom de 12px */
+    left: 0;
+    width: 0%;
+    height: 6px;
+    background-color: #fab32e; /* Amarillo Arichuna */
+    border-radius: 4px;
+    /* Animación más larga y con un delay más notorio */
+    animation: underlineExpand 1.2s ease-out 0.8s forwards; 
+}
+
+/* Keyframes */
+@keyframes heroReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes underlineExpand {
+    to {
+        width: 60%;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #hero-contacto {
+        height: 400px;
+        justify-content: center;
+        background-position: center center;
+    }
+    .hero-content {
+        width: 100%;
+        text-align: center;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    .hero-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+/* Inputs del Formulario: Texto Vinotinto, Focus Rojo */
+.form-input{border:2px solid #D1D5DB;padding:0.75rem 1.25rem;font-size:1rem;line-height:1.5;color:#6e5151;background-color:#fff;width:100%;border-radius:1.5rem;transition:border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out}
+.form-input:focus{outline:none;border-color:#c30000;box-shadow:0 0 0 3px rgba(195, 0, 0, 0.2)}
+.form-input[type="file"]{padding:0.65rem}
+.file-input-style::file-selector-button{font-weight:500;border:none;padding:0.25rem 0.75rem;border-radius:0.5rem;background-color:#F3F4F6;color:#6e5151;cursor:pointer;margin-right:0.75rem}
+
+/* Info Band */
+#info-band{position:relative;overflow:hidden;background-image:url('../img/REDES-2.jpg');background-attachment:fixed;background-position:center center;background-repeat:no-repeat;background-size:cover}
+.info-band-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.65);z-index:1}
+
+/* Ajuste Responsivo para la banda de información */
+@media (max-width: 768px) {
+    #info-band .grid {
+        /* Fuerza a que el grid actúe como una columna centralizada */
+        grid-template-columns: 1fr;
+        gap: 3rem; /* Aumenta la separación vertical */
+    }
+    
+    #info-band .flex.items-center {
+        /* Centra el contenido de cada tarjeta de info */
+        justify-content: center !important;
+    }
+    
+    /* Centra el texto dentro de la caja de info */
+    #info-band .text-left {
+        text-align: center !important;
+    }
+    
+    /* Alinear icono y texto */
+    #info-band .h-16 {
+        margin-right: 0 !important; /* Elimina margen derecho en móvil */
+        margin-bottom: 0.5rem; /* Añade margen inferior para separar el icono del texto centrado */
+    }
+    
+    /* Cambia de fila para forzar el centrado del texto */
+    #info-band .flex.items-center {
+        flex-direction: column; 
+    }
+}
+/* Mapa: Borde Rojo y Sombra Roja */
+.map-container{position:relative;width:100%;aspect-ratio:16 / 9;border-radius:1.5rem;overflow:hidden;border:2px solid #c30000;box-shadow:0 0 0 3px rgba(195, 0, 0, 0.2)}
+.map-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
+.map-slider-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.map-slider {
+    display: flex;
+    width: 100%;
+    transition: transform 0.6s cubic-bezier(.6,.05,.1,.9);
+}
+
+.map-slide {
+    flex: 0 0 100%; /* <-- esto es lo que faltaba */
+    padding: 0 0.25rem;
+}
+
+
+/* Botones */
+.map-btn {
+    background: #fff;
+    border: 2px solid #c30000;
+    padding: 0.5rem 1.1rem;
+    font-size: 1rem;
+    border-radius: 9999px;
+    transition: 0.3s ease;
+    font-weight: 600;
+    color: #c30000;
+}
+
+.map-btn:hover {
+    background: #c30000;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.map-btn.active {
+    background: #c30000;
+    color: #fff;
+}
+
+/* Contenedor Responsivo para Scroll de Botones */
+.map-btn-scroll-wrapper {
+    /* Por defecto, no hace nada en PC */
+    width: 100%;
+}
+
+/* Botones: Estilo */
+.map-btn {
+    background: #fff;
+    border: 2px solid #c30000;
+    padding: 0.5rem 1.1rem;
+    font-size: 1rem;
+    border-radius: 9999px;
+    transition: 0.3s ease;
+    font-weight: 600;
+    color: #c30000;
+}
+
+.map-btn:hover {
+    background: #c30000;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.map-btn.active {
+    background: #c30000;
+    color: #fff;
+}
+
+/* RESPONSIVO: Solución FINAL para Botones de Mapa (Centrado en PC, Scroll completo en Móvil) */
+@media (max-width: 640px) {
+    
+    .map-btn-scroll-final {
+        /* Compensación: 100% de la caja padre + 1rem (padding izquierdo) + 1rem (padding derecho) */
+        width: calc(100% + 2rem); 
+        
+        /* Mueve el contenedor 1rem a la izquierda para anular el padding del contenedor padre (px-4) */
+        margin-left: -1rem; 
+        
+        overflow-x: scroll; /* Habilita el desplazamiento */
+        
+        /* El padding de 1rem que eliminamos con el margen lo reponemos aquí para que los botones no toquen el borde */
+        padding: 0 1rem 0.5rem; 
+        
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    
+    .map-btn-scroll-final::-webkit-scrollbar {
+        display: none; /* Oculta la barra de scroll */
+    }
+    
+    .map-btn-scroll-final .flex {
+        flex-wrap: nowrap; /* Evita que los botones salten de línea */
+    }
+    
+    .map-btn {
+        flex-shrink: 0; /* Evita que los botones se achiquen */
+    }
+}
+
+/* 10. PAGINA PRODUCTOS (HERO) */
+#hero-productos{width:100%;height:450px;position:relative;overflow:hidden;background-image:url('../img/fachada.jpg');background-size:cover;background-position:center 30%;background-repeat:no-repeat;display:flex;align-items:center;justify-content:flex-start}
+#hero-productos::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.60);z-index:1}
+@media (max-width: 768px){#hero-productos{height:450px;justify-content:center;background-position:center center}#hero-productos .hero-content{width:90%;text-align:center;padding-left:0}#hero-productos .hero-title{font-size:3rem}}
+/* 11. SECCIÓN DE PRODUCTOS */
+
+/* Estilos de Texto Intro y Títulos */
+.product-page-title{font-family:'Fluffy',sans-serif;font-size:3.5rem;font-weight:700;color:#fab32e;margin-bottom:2rem}
+.product-intro-text{font-family:'Montserrat',sans-serif;font-size:1.25rem;color:#6e5151;line-height:1.7}
+.product-section-title{font-family:'Fluffy',sans-serif;font-size:2.75rem;font-weight:700;color:#c30000;margin-bottom:1.5rem}
+
+/* CONTENEDOR DE BLOQUE (Botón + Grid) */
+.family-block {display: flex; flex-direction: column; width: 100%; margin-bottom: 1rem;}
+
+/* BOTÓN DE FAMILIA */
+.product-section-container .family-selector-btn {
+    display: flex; flex-direction: row; align-items: center; justify-content: flex-start;
+    padding: 1rem 1.25rem; border: 2px solid #E5E7EB; border-radius: 1rem; 
+    background-color: #ffffff; cursor: pointer; text-align: left; transition: all 0.3s ease;
+    width: 100%; position: relative; z-index: 10;
+}
+.product-section-container .family-selector-btn img {width: 3rem; height: 3rem; margin-right: 1rem; transition: transform 0.3s ease;}
+.product-section-container .family-selector-btn span {font-size: 1.25rem; font-weight: 600; color: #640202;}
+
+/* Hover & Active */
+.product-section-container .family-selector-btn:hover {
+    border-color: #fab32e; background-color: rgba(250, 179, 46, 0.1); 
+    box-shadow: 0 4px 10px rgba(250, 179, 46, 0.2);
+}
+.product-section-container .family-selector-btn.active {
+    border-color: #fab32e; background-color: rgba(250, 179, 46, 0.1); 
+    border-radius: 1rem; margin-bottom: 1.5rem; box-shadow: 0 4px 12px rgba(250, 179, 46, 0.25);
+}
+
+/* GRID DE PRODUCTOS */
+.product-section-container .product-grid-container {
+    opacity: 0; transform: translateY(-10px); max-height: 0; overflow: hidden;
+    transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease; 
+    background-color: transparent; border: none; padding: 0 0.5rem; margin-top: 0;
+}
+.product-section-container .product-grid-container.visible {
+    opacity: 1; transform: translateY(0); max-height: 2000px; 
+    padding: 1.5rem 0.5rem; display: grid; 
+}
+
+/* TARJETA DE PRODUCTO */
+.product-section-container .product-card {
+    position: relative !important; border-radius: 0.75rem; overflow: hidden;
+    background-color: #ffffff; border: 1px solid #E5E7EB;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease; display: block;
+}
+.product-section-container .product-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 20px rgba(220, 38, 38, 0.25);
+}
+.product-section-container .product-card-image-wrapper {
+    position: relative; width: 100%; padding-top: 100%; 
+    background-color: transparent; min-width: 100%; height: 0; overflow: hidden; 
+}
+.product-section-container .product-card-image {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;
+}
+
+/* LUPA Y DETALLES */
+.product-section-container .lupa-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(195, 0, 0, 0.65);opacity:0;transform:scale(0.9);display:flex;align-items:center;justify-content:center;transition:all 0.3s ease}
+.product-section-container .product-card:hover .lupa-overlay{opacity:1;transform:scale(1)}
+.product-section-container .lupa-button{background-color:#fab32e;border:none;border-radius:50%;width:4rem;height:4rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.product-section-container .lupa-button img{width:2rem;height:2rem;filter:brightness(0) invert(1)}
+.product-section-container .lupa-button:hover{transform:scale(1.15)}
+
+/* --- ESTILOS DE FICHA TÉCNICA (MODIFICADO) --- */
+
+/* Contenedor Scrollable Desktop */
+#product-detail-view {
+    transition: opacity 0.3s ease-in-out;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+    scrollbar-width: thin; 
+    scrollbar-color: #fab32e #f1f1f1;
+}
+#product-detail-view::-webkit-scrollbar { width: 6px; }
+#product-detail-view::-webkit-scrollbar-track { background: #f1f1f1; }
+#product-detail-view::-webkit-scrollbar-thumb { background-color: #fab32e; border-radius: 10px; }
+
+.product-detail-content{opacity:0;animation:productFadeIn 0.5s ease forwards}
+.product-detail-content img.detail-image{width:100%;aspect-ratio:1 / 1;object-fit:contain;border-radius:0.75rem;margin-bottom:1rem;border:1px solid #E5E7EB}
+
+/* Títulos y textos de la Ficha */
+.product-detail-content h2 {
+    font-size:1.75rem; font-weight:700; color:#640202; margin-bottom:1.5rem; text-align: center;
+}
+
+/* Estilos para los items de la ficha (H3 para titulo, P para valor) */
+.product-detail-content .spec-item h3 {
+    font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;
+    font-weight: 700; color: #fab32e; margin-bottom: 0.25rem;
+}
+.product-detail-content .spec-item p {
+    font-size: 1.1rem; font-weight: 600; color: #6e5151; line-height: 1.4;
+}
+/* Separador sutil */
+.product-detail-content .spec-separator {
+    border-top: 1px dashed #e5e7eb; margin: 1.5rem 0;
+}
+
+/* --- ESTILOS DEL MODAL MÓVIL --- */
+#mobile-product-modal {
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(5px);
+}
+#mobile-modal-content .product-detail-content {
+    text-align: center;
+    opacity: 1; 
+}
+#mobile-modal-content img.detail-image {
+    max-width: 250px;
+    margin: 0 auto 1.5rem auto;
+}
+/* Ajuste de grid para móvil */
+#mobile-modal-content .grid {
+    text-align: left; /* Alinear texto a la izquierda en el grid móvil también */
+    padding: 0 1rem;
+}
+
+.btn-catalogo-red {
+  display: block;             /* Comportamiento de bloque para permitir margenes auto */
+  width: fit-content;         /* El ancho se ajusta al texto */
+  margin: 0 auto 3rem auto; /* Centrado horizontalmente (auto) y margen superior */
+  padding: 0.6rem 1.5rem;     /* Tamaño compacto */
+  
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  
+  color: #ffffff;
+  background-color: #c30000; /* Rojo Marca */
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-catalogo-red:hover {
+  background-color: #fab32e; /* Amarillo Marca */
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(250, 179, 46, 0.3);
+}
+@keyframes productFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* 12. PÁGINA DE RECETARIO (ESTILOS COMPLETOS Y CORREGIDOS) */
+
+/* ---- 1. Cabecera (Hero) ---- */
+#hero-recetario {width: 100%;height: 450px;position: relative;overflow: hidden;background-image: url('../img/recetas/pasta.jpeg');background-size: cover;background-position: center 30%;background-repeat: no-repeat;display: flex;align-items: center;justify-content: flex-start;}
+#hero-recetario::before {content: '';position: absolute;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.60);z-index: 1;}
+
+/* ---- 2. Contenedor y Títulos de Sección ---- */
+.recipe-page-container {background-color: #FFF;}
+.recipe-section-title {
+    font-family: 'Fluffy', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 500;
+    color: #fab32e; /* Título fuera de card: Naranja */
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+/* ---- 3. Tarjeta de Receta (El Card) ---- */
+.recipe-card {
+    display: flex;
+    flex-direction: column; 
+    background-color: #ffffff; /* Fondo blanco puro */
+    border-radius: 1rem; 
+    overflow: hidden;
+    /* Sombra rojiza suave en estado normal */
+    box-shadow: 0 4px 10px rgba(195, 0, 0, 0.05); 
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    /* Sombra rojiza más fuerte en hover (eliminado el negro) */
+    box-shadow: 0 10px 20px rgba(195, 0, 0, 0.15); 
+}
+
+@media (min-width: 1024px) { 
+    .recipe-card {flex-direction: row; max-height: 400px;}
+    .recipe-card.layout-reversed {flex-direction: row-reverse;}
+}
+
+/* ---- 4. Contenido de la Tarjeta ---- */
+.recipe-image-container {flex-basis: 100%; overflow: hidden;}
+.recipe-image {width: 100%;height: 100%;object-fit: cover;transition: transform 0.4s ease-out;}
+.recipe-card:hover .recipe-image {transform: scale(1.05);}
+.recipe-content {flex-basis: 100%; padding: 2rem 2.5rem; display: flex; flex-direction: column; justify-content: center;}
+
+@media (min-width: 1024px) { 
+    .recipe-image-container {flex-basis: 55%;}
+    .recipe-content {flex-basis: 45%;}
+}
+
+.recipe-title {
+    font-family: 'Fluffy', sans-serif;
+    font-size: 2.5rem; 
+    color: #640202; /* Título dentro de card: Vinotinto */
+    margin-bottom: 1rem;
+}
+
+.recipe-description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.125rem; 
+    color: #6e5151; /* Párrafo: Vinotinto Oscuro */
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.recipe-button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    padding: 0.85rem 1.5rem;
+    background-color: #c30000; /* Fondo Rojo */
+    color: #FFFFFF; /* Letras Blancas */
+    border-radius: 999px; 
+    box-shadow: 0 4px 10px rgba(195, 0, 0, 0.2); /* Sombra roja */
+    transition: all 0.3s ease;
+    align-self: flex-start; 
+}
+
+.recipe-button:hover {
+    background-color: #fab32e; /* Fondo Naranja */
+    color: #FFFFFF; /* Letras Blancas */
+    box-shadow: 0 6px 15px rgba(250, 179, 46, 0.4); /* Sombra naranja */
+    transform: translateY(-2px);
+}
+
+/* 13. ANIMACIONES DE SCROLL */
+.animate-on-scroll{opacity:0;transition:opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);will-change:opacity, transform}
+.animate-on-scroll.animate-from-left{transform:translateX(-100px)}
+.animate-on-scroll.animate-from-right{transform:translateX(100px)}
+.animate-on-scroll.is-visible{opacity:1;transform:translate(0, 0)}
+
+/* ESTILOS ESPECÍFICOS PARA DETALLE DE RECETA */
+
+/* Marco "Postal Premium" */
+.recipe-frame {
+    background-color: #fff;
+    padding: 1rem; /* El espacio blanco alrededor de la foto */
+    border-radius: 1.5rem; /* Bordes redondeados externos */
+    
+    /* Sombra elegante y profunda (solo tonos de rojo Arichuna) */
+box-shadow: 
+    0 10px 15px -3px rgba(195, 0, 0, 0.15), /* Sombra principal más fuerte */
+    0 4px 6px -2px rgba(195, 0, 0, 0.10),  /* Sombra más cercana y sutil */
+    0 20px 25px -5px rgba(195, 0, 0, 0.20); /* Sombra de profundidad */
+        
+    position: relative;
+    border: 1px solid #f3f4f6; /* Borde gris muy sutil */
+}
+
+/* Elemento decorativo: Borde inferior de color marca */
+.recipe-frame::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 6px; /* Grosor de la línea decorativa */
+    background: linear-gradient(90deg, #c30000 0%, #fab32e 100%); /* Gradiente Rojo-Mostaza */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+/* La imagen interna */
+.recipe-frame img {
+    border-radius: 1rem; /* Bordes redondeados internos */
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid #e5e7eb; /* Borde fino alrededor de la imagen */
+}
+
+/* 12. CTA A RECETARIO (CON PARALLAX) */
+/* (Este bloque pertenece a la página de PRODUCTOS, pero lo mantenemos) */
+#productos-cta-recetario{position:relative;padding:6rem 2rem;background-image:url('../img/parallax1.jpg');background-attachment:fixed;background-position:center center;background-size:cover}
+.productos-parallax-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(195, 0, 0, 0.65);z-index:1}
+
+/* 14. PÁGINA DE VENTAS */
+#hero-ventas{width:100%;height:450px;position:relative;overflow:hidden;background-image:url('../img/recetas/pan.png');background-size:cover;background-position:center 40%;display:flex;align-items:center;justify-content:flex-start}
+#hero-ventas::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.60);z-index:1}
+.ventas-section-title{font-family:'Fluffy',sans-serif;font-size:3.5rem;font-weight:500;color:#fab32e;text-align:center;margin-bottom:2rem}
+.ventas-intro-text{font-family:'Montserrat',sans-serif;font-size:1.25rem;color:#6e5151;line-height:1.7}
+.ventas-options-container{display:grid;grid-template-columns:1fr}
+@media (min-width: 1024px){.ventas-options-container{grid-template-columns:1fr 1fr}}
+.ventas-option-card{position:relative;padding:6rem 2rem;min-height:70vh;display:flex;align-items:center;justify-content:center;background-size:cover;background-position:center;overflow:hidden}
+#ventas-opcion-vender{background-image:url('../img/fondo-ventas.jpg')}
+#ventas-opcion-distribuir{background-image:url('../img/fondo-ventas1.jpg')}
+.ventas-option-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.5);z-index:1}
+.ventas-option-content{position:relative;z-index:2;max-width:420px;text-align:center;padding:2.5rem;border-radius:1rem;background:rgba(255, 255, 255, 0.85);backdrop-filter:blur(10px);border:1px solid rgba(255, 255, 255, 0.4);box-shadow:0 10px 30px rgba(0, 0, 0, 0.2);transform:scale(1);transition:transform 0.4s ease, box-shadow 0.4s ease}
+.ventas-option-card:hover .ventas-option-content{transform:scale(1.05);box-shadow:0 15px 40px rgba(0, 0, 0, 0.25)}
+.ventas-option-title{font-family:'Fluffy',sans-serif;font-size:2.75rem;color:#c30000;margin-bottom:1rem}
+.ventas-option-description{font-family:'Montserrat',sans-serif;font-size:1.1rem;color:#6e5151;line-height:1.6;margin-bottom:2rem}
+.ventas-button{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;text-decoration:none;padding:0.85rem 2rem;background-color:#c30000;color:#FFFFFF;border-radius:999px;box-shadow:0 4px 10px rgba(195, 0, 0, 0.2);transition:all 0.3s ease}
+.ventas-button:hover{background-color:#fab32e;color:#FFFFFF;box-shadow:0 6px 15px rgba(250, 179, 46, 0.4);transform:translateY(-2px)}
+.benefit-card{background:#FFF;padding:2.5rem 2rem;border-radius:1rem;transition:transform 0.3s ease;border-color: rgb(195, 0, 0, 0.85)}
+.benefit-card:hover{transform:translateY(-8px)}
+.benefit-icon{width:4rem;height:4rem;margin-left:auto;margin-right:auto;margin-bottom:1.5rem}
+.benefit-title{font-family:'Fluffy',sans-serif;font-size:1.75rem;color:#fab32e;margin-bottom:0.75rem}
+.benefit-text{font-family:'Montserrat',sans-serif;font-size:1rem;color:#6e5151;line-height:1.6}
+.ventas-parallax-section{position:relative;padding:6rem 2rem;background-image:url('../img/recetas/pan.png');background-attachment:fixed;background-position:center center;background-size:cover}
+.parallax-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(195, 0, 0, 0.65);z-index:1}
+.ventas-parallax-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(195, 0, 0, 0.8);z-index:1}
+.ventas-button-alt{font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.1rem;text-transform:uppercase;text-decoration:none;padding:1rem 2.5rem;background-color:#fab32e;color:#FFFFFF;border-radius:999px;box-shadow:0 4px 15px rgba(250, 179, 46, 0.3);transition:all 0.3s ease}
+.ventas-button-alt:hover{background-color:#fff;color:#c30000;box-shadow:0 6px 20px rgba(255, 255, 255, 0.4);transform:translateY(-3px)}
+.form-input-compact {
+    border: 1px solid #D1D5DB; 
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    color: #1F2937; 
+    background-color: #fff;
+    width: 100%;
+    border-radius: 0.5rem; /* Menos redondeado que el grande para ahorrar espacio */
+    transition: border-color 0.2s;
+}
+.form-input-compact:focus {
+    outline: none; 
+    border-color: #EF4444; 
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2); 
+}
+
+/* ESTADOS DE VISIBILIDAD PARA LA ANIMACIÓN */
+.view-initial {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.view-form {
+    /* Estilos base para la transición */
+    transition: opacity 0.5s ease;
+}
+
+/* Clases de utilidad para ocultar/mostrar (usadas por JS) */
+.hidden-view {
+    display: none;
+}
+.fading-out {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+/* 15. PÁGINA NOSOTROS */
+#hero-nosotros-page{width:100%;height:450px;position:relative;overflow:hidden;background-image:url('../img/fachada.jpg');background-size:cover;background-position:center 30%;display:flex;align-items:center;justify-content:flex-start}
+#hero-nosotros-page::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.60);z-index:1}
+.nosotros-section-title{font-family:'Fluffy',sans-serif;font-size:3.5rem;font-weight:500;color:#fab32e}
+.nosotros-body-text{font-family:'Montserrat',sans-serif;font-size:1.125rem;color:#6e5151;line-height:1.8}
+.nosotros-history-image{width:100%;height: 38rem;;border-radius:1rem;object-fit:cover;aspect-ratio:4 / 3}
+.nosotros-mv-parallax{position:relative;padding:4rem 0;background-image:url('../img/parallax.jpg');background-attachment:fixed;background-position:center center;background-size:cover}
+.nosotros-mv-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(195, 0, 0, 0.85);z-index:1}
+.nosotros-mv-title{font-family:'Fluffy',sans-serif;font-size:3rem;color:#FFFFFF;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:3px solid #fab32e;display:inline-block}
+.nosotros-mv-text{font-family:'Montserrat',sans-serif;font-size:1.125rem;line-height:1.8;color:#FFF}
+.nosotros-news-bg{background-color:#f9fafb;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb}
+.news-card{background-color:#fff;border-radius:1rem;overflow:hidden;transition:transform 0.3s ease;border-color: rgba(195, 0, 0, 0.85);}
+.news-card:hover{transform:translateY(-8px)}
+.news-card-link{text-decoration:none;display:block}
+.news-image-container{width:100%;aspect-ratio:11 / 9;overflow:hidden}
+.news-image{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease}
+.news-card:hover .news-image{transform:scale(1.05)}
+.news-content{padding:1.75rem}
+.news-date{font-family:'Montserrat',sans-serif;font-size:0.875rem;font-weight:500;color:#fab32e;text-transform:uppercase;margin-bottom:0.5rem;display:block}
+.news-title{font-family:'Fluffy',sans-serif;font-size:1.75rem;line-height:1.3;color:#640202;margin-bottom:0.75rem}
+.news-excerpt{font-family:'Montserrat',sans-serif;font-size:1rem;color:#6e5151;line-height:1.6;margin-bottom:1.25rem}
+.news-read-more{font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;color:#c30000;text-decoration:none;transition:color 0.3s ease}
+
+.news-card:hover .news-read-more{color:#fab32e}
+
+
