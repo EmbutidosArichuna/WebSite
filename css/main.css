@@ -43,17 +43,91 @@ html,body{background:#fff;overflow-x:clip}
 /* NAVEGACIÓN MODERNA */
 .nav-item {display: inline-block;color: #ffffff !important;font-size: 1.125rem;font-weight: 700;padding: 1rem;transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-bottom-color 0.3s ease;border-bottom: 3px solid transparent;}
 .nav-highlight, .nav-item:hover {border-bottom-color: #dc2626 !important;transform: translateY(-4px);box-shadow: 6px 0 12px -4px rgba(255, 1, 1, 0.212), -6px 0 12px -4px rgba(255, 0, 0, 0.212);background: rgba(255, 255, 255, 0.1); border-radius: 4px;}
+/* 5. CARRUSEL PRINCIPAL (REDISEÑADO) */
 
-/* 5. CARRUSEL: transiciones, texto y CURVA SUAVE */
-#carousel-container{position:relative;overflow:hidden;width:100%;border-bottom-left-radius:50% 50px;border-bottom-right-radius:50% 50px}
-#carousel-slides,.slide-content img{border-bottom-left-radius:inherit;border-bottom-right-radius:inherit}
-.carousel-nav-btn{opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
-#carousel-container:hover .carousel-nav-btn{opacity:1;pointer-events:auto}
-#carousel-container:hover #prev-button,#carousel-container:hover #next-button{transform:translateY(-50%) translateX(0)}
-.slide-content .text-fade-in{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
-.slide-content.is-active .text-fade-in{opacity:1;transform:translateY(0)}
-#mobile-menu{transition:opacity .3s;opacity:0;pointer-events:none}#mobile-menu.active{opacity:1;pointer-events:auto}
+/* Contenedor Base */
+#carousel-container {
+    position: relative;
+    width: 100%;
+    /* La curva ahora se maneja con el SVG en el HTML para mayor nitidez */
+}
 
+/* Animación de Texto (Entrada hacia arriba) */
+.slide-content .text-fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease-out, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.slide-content.is-active .text-fade-up {
+    opacity: 1;
+    transform: translateY(0);
+    /* Retraso para que aparezca después de la imagen */
+    transition-delay: 0.3s; 
+}
+
+/* Animación Ken Burns (Zoom lento infinito en la imagen) */
+@keyframes kenBurns {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); }
+}
+
+/* Aplicamos la animación solo cuando el slide está activo */
+.slide-content.is-active .ken-burns-anim {
+    animation: kenBurns 8s ease-out forwards;
+}
+
+/* Cuando no está activo, reseteamos */
+.slide-content:not(.is-active) .ken-burns-anim {
+    transform: scale(1);
+    animation: none;
+}
+
+/* Sombra de Texto Personalizada (Para leer sobre la foto) */
+/* Sombra y Borde de Texto (Estilo Arichuna) */
+.drop-shadow-brand {
+    /* 1. El borde rojo solicitado (Grosor y Color) */
+    -webkit-text-stroke: 2px #c30000; /* Rojo intenso */
+    
+    /* 2. Una sombra negra sólida detrás para dar profundidad y contraste */
+    text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.6);
+    
+    /* Opcional: Asegura que el relleno de la letra sea blanco puro */
+    color: #ffffff; 
+    
+    /* Mejora el renderizado */
+    paint-order: stroke fill;
+}
+
+/* Ajuste para móviles (borde un poco más fino) */
+@media (max-width: 768px) {
+    .drop-shadow-brand {
+        -webkit-text-stroke: 1px #c30000;
+        text-shadow: 2px 2px 0px rgba(150, 0, 0, 0.6);
+    }
+}
+
+/* Indicadores (Puntos) */
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.carousel-dot.active {
+    background-color: #fab32e; /* Amarillo Arichuna */
+    transform: scale(1.3);
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(250, 179, 46, 0.6);
+}
+
+/* Flechas (Hover effect) */
+.carousel-nav-btn:hover {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+}
 
 /* 6. HOME PAGE - SECCIONES */
 /* (Esta sección reemplaza los estilos antiguos de #recetario-descanso y #sobre-nosotros) */

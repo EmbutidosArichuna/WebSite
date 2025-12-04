@@ -71,53 +71,77 @@ function initPageScripts() {
 
   // Intentar cargar menú (para el index estático)
   window.initMobileMenu();
-
-  /* 4. CARRUSEL PRINCIPAL */
+/* 4. CARRUSEL PRINCIPAL (MEJORADO) */
   (function(){
-    const slidesContainer=document.getElementById('carousel-slides'); if(!slidesContainer) return;
-    const slides=Array.from(slidesContainer.children), total=slides.length;
-    const indicatorsContainer=document.getElementById('carousel-indicators'), btnPrev=document.getElementById('prev-button'), btnNext=document.getElementById('next-button');
-    let idx=0, intervalId=null; const INTERVAL=5e3, IMAGE_TRANS_MS=700;
-    const go=i=>{idx=(i+total)%total;slidesContainer.style.transform=`translateX(${-idx*100}%)`;slides.forEach(s=>s.classList.remove('is-active'));setTimeout(()=>slides[idx]&&slides[idx].classList.add('is-active'),Math.max(0,IMAGE_TRANS_MS-100));
-      if(indicatorsContainer) indicatorsContainer.querySelectorAll('button').forEach((b,j)=>{b.classList.toggle('opacity-100',j===idx);b.classList.toggle('opacity-50',j!==idx);});};
-    const next=()=>go(idx+1), prev=()=>go(idx-1), start=()=>{clearInterval(intervalId);intervalId=setInterval(next,INTERVAL);};
-    if(indicatorsContainer){indicatorsContainer.innerHTML='';for(let i=0;i<total;i++){const b=document.createElement('button');b.className='w-3 h-3 rounded-full bg-white opacity-50 transition-opacity duration-300 shadow-md';b.type='button';b.addEventListener('click',()=>{go(i);start();});indicatorsContainer.appendChild(b);}}
-    if(btnNext) btnNext.addEventListener('click',()=>{next();start();}); if(btnPrev) btnPrev.addEventListener('click',()=>{prev();start();});
-    slides[0]&&slides[0].classList.add('is-active'); go(0); start();
-  })();
+    const slidesContainer = document.getElementById('carousel-slides'); if(!slidesContainer) return;
+    const slides = Array.from(slidesContainer.children);
+    const total = slides.length;
+    const indicatorsContainer = document.getElementById('carousel-indicators');
+    const btnPrev = document.getElementById('prev-button');
+    const btnNext = document.getElementById('next-button');
+    
+    let idx = 0;
+    let intervalId = null; 
+    const INTERVAL = 6000; // 6 segundos para apreciar la animación
 
-/* GESTIÓN DE ANIMACIONES DE SCROLL (fade-section y Logo) */
-(function() {
-    // 1. Configurar el observador
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // La sección ha entrado en la vista
-                entry.target.classList.add('visible');
-                
-                // 2. Lógica para el logo (Se dispara inmediatamente después de que la sección sea visible)
-                if (entry.target.id === 'sobre-nosotros') {
-                    const logo = document.getElementById('logo-sobre-nosotros');
-                    if (logo) {
-                        logo.classList.add('animate-in');
-                    }
-                }
-                
-                // 3. Dejar de observar esta sección, ya animó
-                observer.unobserve(entry.target);
+    // Función para ir a un slide específico
+    const go = (i) => {
+        // Calcular índice cíclico
+        idx = (i + total) % total;
+        
+        // Mover el contenedor
+        slidesContainer.style.transform = `translateX(${-idx * 100}%)`;
+        
+        // Actualizar clases para activar animaciones CSS
+        slides.forEach((s, index) => {
+            if (index === idx) {
+                s.classList.add('is-active');
+            } else {
+                s.classList.remove('is-active');
             }
         });
-    }, {
-        // La animación se activa cuando el 10% de la sección es visible
-        threshold: 0.1 
-    });
 
-    // 4. Observar todas las secciones que tengan la clase 'fade-section'
-    const sections = document.querySelectorAll('.fade-section');
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-})();
+        // Actualizar indicadores (dots)
+        if (indicatorsContainer) {
+            const dots = Array.from(indicatorsContainer.children);
+            dots.forEach((dot, j) => {
+                dot.classList.toggle('active', j === idx);
+            });
+        }
+    };
+
+    const next = () => go(idx + 1);
+    const prev = () => go(idx - 1);
+
+    const start = () => {
+        if (intervalId) clearInterval(intervalId);
+        intervalId = setInterval(next, INTERVAL);
+    };
+
+    // Crear Indicadores
+    if (indicatorsContainer) {
+        indicatorsContainer.innerHTML = '';
+        for(let i = 0; i < total; i++){
+            const b = document.createElement('button');
+            b.className = 'carousel-dot'; // Clase definida en CSS
+            b.type = 'button';
+            b.addEventListener('click', () => { go(i); start(); });
+            indicatorsContainer.appendChild(b);
+        }
+    }
+
+    // Listeners botones
+    if (btnNext) btnNext.addEventListener('click', () => { next(); start(); }); 
+    if (btnPrev) btnPrev.addEventListener('click', () => { prev(); start(); });
+
+    // Inicializar
+    // Pequeño delay inicial para asegurar que la animación CSS corra bien al cargar
+    setTimeout(() => {
+        slides[0].classList.add('is-active'); 
+        go(0); 
+        start();
+    }, 100);
+  })();
 
 /* 5. MINI CARRUSEL DE PRODUCTOS - 3D/CIRCULAR (REFACTORIZADO) */
 (function(){
